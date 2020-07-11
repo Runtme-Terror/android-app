@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +18,11 @@ public class HomePageAppointmentsAdapter extends RecyclerView.Adapter<HomePageAp
 
     private Context context;
     private List<Appointment> appointments;
+    private Appointment appointmentToEdit;
+
+    public Appointment getAppointmentToEdit() {
+        return appointmentToEdit;
+    }
 
     public HomePageAppointmentsAdapter(Context context, List<Appointment> appointments) {
         this.context = context;
@@ -40,6 +47,13 @@ public class HomePageAppointmentsAdapter extends RecyclerView.Adapter<HomePageAp
         holder.tvDoctorName.setText(doctorName);
         holder.tvDate.setText(date);
         holder.tvTime.setText(time);
+
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Edit appointment", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -52,6 +66,7 @@ public class HomePageAppointmentsAdapter extends RecyclerView.Adapter<HomePageAp
         public TextView tvDoctorName;
         public TextView tvTime;
         public TextView tvDate;
+        public Button btnEdit;
 
         public ViewHolder(@NonNull View itemView) {
 
@@ -60,6 +75,7 @@ public class HomePageAppointmentsAdapter extends RecyclerView.Adapter<HomePageAp
             tvDoctorName = itemView.findViewById(R.id.tvDoctorName);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTime = itemView.findViewById(R.id.tvTime);
+            btnEdit = itemView.findViewById(R.id.btnEditAppointment);
         }
     }
 }

@@ -49,18 +49,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         mapView = root.findViewById(R.id.mvDiseaseMap);
         rvApp = root.findViewById(R.id.rvUpcomingApp);
-        Button btnShowApp = root.findViewById(R.id.btnShowApp);
-        Button btnShowMap = root.findViewById(R.id.btnShowMap);
 
         initMapView(savedInstanceState);
-
-        btnShowApp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(HomeFragment.super.getContext(), "Show all appointments", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         initRecyclerView();
 
