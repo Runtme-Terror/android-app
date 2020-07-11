@@ -16,8 +16,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.user_app.Appointment;
 import com.example.user_app.HomePage;
+import com.example.user_app.HomePageAppointmentsAdapter;
 import com.example.user_app.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,11 +30,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private HomeViewModel homeViewModel;
     private MapView mapView;
+    private RecyclerView rvApp;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
+    protected List<Appointment> appointments;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +48,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         mapView = root.findViewById(R.id.mvDiseaseMap);
+        rvApp = root.findViewById(R.id.rvUpcomingApp);
         Button btnShowApp = root.findViewById(R.id.btnShowApp);
         Button btnShowMap = root.findViewById(R.id.btnShowMap);
 
@@ -50,7 +60,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(HomeFragment.super.getContext(), "Show all appointments", Toast.LENGTH_SHORT).show();
             }
         });
+
+
+        initRecyclerView();
+
         return root;
+    }
+
+    private void initRecyclerView() {
+        appointments = new ArrayList<>();
+        appointments.add(new Appointment("ME", "Doctor Octopus", "16:30", "12/07/2020"));
+        appointments.add(new Appointment("ME", "Doctor Doom", "17:30", "13/07/2020"));
+
+        HomePageAppointmentsAdapter homePageAppointmentsAdapter = new HomePageAppointmentsAdapter(getActivity(), appointments);
+        rvApp.setAdapter(homePageAppointmentsAdapter);
+        rvApp.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     private void initMapView(Bundle savedInstanceState) {
