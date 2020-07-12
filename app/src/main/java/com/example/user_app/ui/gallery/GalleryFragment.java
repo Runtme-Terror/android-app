@@ -23,6 +23,7 @@ public class GalleryFragment extends Fragment {
     private GalleryViewModel galleryViewModel;
     private RecyclerView rvAllApp;
     private RecyclerView rvOldApp;
+    public static ArrayList<Appointment> appointments = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -39,9 +40,6 @@ public class GalleryFragment extends Fragment {
     }
 
     private void initRecyclerViews() {
-        ArrayList<Appointment> appointments = new ArrayList<>();
-        appointments.add(new Appointment("ME", "Doctor Octopus", "16:30", "12/07/2020"));
-        appointments.add(new Appointment("ME", "Doctor Doom", "17:30", "13/07/2020"));
 
         HomePageAppointmentsAdapter homePageAppointmentsAdapter = new HomePageAppointmentsAdapter(getActivity(), appointments);
         rvAllApp.setAdapter(homePageAppointmentsAdapter);
@@ -49,7 +47,6 @@ public class GalleryFragment extends Fragment {
 
         ArrayList<Appointment> oldAppointments = new ArrayList<>();
         oldAppointments.add(new Appointment("ME", "Doctor Octopus", "16:30", "12/06/2020"));
-        oldAppointments.add(new Appointment("ME", "Doctor Doom", "17:30", "13/06/2020"));
 
         AppointmentAdapter appointmentAdapter = new AppointmentAdapter(getActivity(), oldAppointments);
         rvOldApp.setAdapter(appointmentAdapter);

@@ -31,7 +31,7 @@ public class ShowPrescription extends AppCompatActivity {
 
     private void getPrescriptionDetails() {
         patient = new Patient("John Doe", "johndoe@gmail.com", 22, 192.2, 195.25, "Male");
-        doctor = new Doctor("Dr. Murli Prasad Sharma", "5 years", 3.5, "123456789");
+        doctor = new Doctor("Dr. Octopus", "15 years", 1.0, "123456789");
 
         medicines = new ArrayList<>();
         medicines.add(new Medicine("med 1", "x mg", "2 weeks", "3 times a day"));

@@ -2,6 +2,7 @@
 
 package com.example.user_app;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 
 public class Registration extends AppCompatActivity {
 
+    private static final int REQUEST_CODE = 1;
     private ArrayList<String> sex;
     private CheckBox cbLocation;
     private String name;
@@ -39,6 +42,7 @@ public class Registration extends AppCompatActivity {
     private Location patientLocation;
     private double latitude;
     private double longitude;
+    private static final String TAG = "Registration";
 
     private final LocationListener locationListener = new LocationListener() {
         @Override
@@ -112,7 +116,10 @@ public class Registration extends AppCompatActivity {
                 }
 
                 patientLocation = getLocation();
-                if(patientLocation == null) return;
+                if(patientLocation == null){
+                    Toast.makeText(Registration.this, "Location null", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 name = etName.getText().toString();
                 email = etEmail.getText().toString();
@@ -145,16 +152,23 @@ public class Registration extends AppCompatActivity {
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(Registration.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(Registration.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
+
             // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return null;
         }
 
         return locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.v(TAG,"Permission: "+permissions[0]+ "was "+grantResults[0]);
+            //resume tasks needing this permission
+        }
     }
 }
